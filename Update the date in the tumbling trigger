@@ -1,0 +1,18 @@
+import json
+from datetime import datetime, timedelta
+
+json_file_path = ""$(System.DefaultWorkingDirectory)/_sendx-qdbproductiondataInsights-CI/QDB-BI/DataFactory/trigger/Dev/trg_tumblingtrigger_1day.json"  
+
+
+with open(json_file_path, "r") as json_file:
+    data = json.load(json_file)
+
+
+current_time = datetime.utcnow().replace(hour=8, minute=0, second=0, microsecond=0)
+formatted_time = current_time.isoformat() + 'Z'
+data["properties"]["typeProperties"]["startTime"] = formatted_time
+
+with open(json_file_path, "w") as json_file:
+    json.dump(data, json_file, indent=4)
+
+print("Updated JSON file with new startTime:", json_file_path)
